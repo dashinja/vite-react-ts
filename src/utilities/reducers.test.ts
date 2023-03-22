@@ -1,6 +1,4 @@
-import { CountActionType, countReducer, InitialActionType } from './reducers'
-
-import {expect, test, describe } from 'vitest'
+import { CountActionType, countReducer } from './reducers'
 
 describe("DispatchCount", () => {
   test("reducer should add 1 successfully", () => {
