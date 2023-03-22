@@ -17,7 +17,7 @@ export default function Instructions({ styles }: InstructionsProps) {
   const previouslySubmittedValues = submittedState.arrayValue.join(', ')
 
   return (
-    <div className={styles?.myCenter || ""}>
+    <div className={styles?.myCenter || "nope"}>
       <h3>Main Page</h3>
 
       <form>

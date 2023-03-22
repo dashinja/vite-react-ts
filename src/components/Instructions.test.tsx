@@ -1,19 +1,24 @@
-import { describe, test, expect, vi } from 'vitest'
-import {render, screen} from '@testing-library/react'
+import "vitest-dom/extend-expect"
+import { render, screen } from '@testing-library/react'
+import Instructions from './Instructions'
 
-import Instructions, { StylesType } from './Instructions'
 
 describe("Instructions component", () => {
-  const myStyles = vi.fn().mockReturnValue({})
+  const someStyle = { myCenter: "someClass" }
+
+  beforeEach(() => {
+    render(<Instructions styles={someStyle} />)
+  })
+
+  const numberBox = () => screen.getByRole('textbox', { name: /choose an initial number/i })
 
   test("should render", () => {
-    render(<Instructions />)
-    screen.logTestingPlaygroundURL()
-
     expect(screen.getByRole('heading')).toBeDefined()
     expect(screen.getByRole('textbox')).toBeDefined()
     expect(screen.getAllByRole('button')).toBeDefined()
   })
 
-  // test 
+  test("should have initial number value as 0", () => {
+    expect(numberBox()).toHaveValue('0')
+  })
 })
