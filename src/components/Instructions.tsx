@@ -51,6 +51,7 @@ export default function Instructions({ styles }: InstructionsProps) {
               value: countState.value
             } as CountActionType)
           }}
+          data-testid={'+1'}
         >
           +1 Value
         </button>
@@ -64,6 +65,8 @@ export default function Instructions({ styles }: InstructionsProps) {
             } as CountActionType)
           }
           }
+          data-testid={'-1'}
+
         >
           -1 Value
         </button>
@@ -78,6 +81,8 @@ export default function Instructions({ styles }: InstructionsProps) {
               newValue: countState.value
             } as SubmitStateType)
           }}
+          data-testid={'submit'}
+
         >
           Submit
         </button>

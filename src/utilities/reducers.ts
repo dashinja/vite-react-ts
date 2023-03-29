@@ -37,7 +37,7 @@ export function countReducer(state: CountActionType, action: CountActionType): C
 export type SubmitStateType = {
   type: 'submitted'
   newValue: number
-  arrayValue: number[]
+  arrayValue?: number[]
 }
 
 export const InitialSubmitState = {
@@ -51,7 +51,7 @@ export const submitReducer = (state: SubmitStateType, action: SubmitStateType) =
     case 'submitted':
       return {
         ...state,
-      arrayValue: [...state.arrayValue, action.newValue]
+      arrayValue: state.arrayValue?.length ? [...state.arrayValue, action.newValue] : [action.newValue]
       } as unknown as SubmitStateType
   
     default:
