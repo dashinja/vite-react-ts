@@ -34,19 +34,20 @@ describe("DispatchCount", () => {
 })
 
 describe("DispatchSubmitted", () => {
-
   test("reducer should execute the submitted functionality properly", () => {
     let countState = {
       type: 'submitted',
+      arrayValue: [1],
       newValue: 5
     } as SubmitStateType
     
     let submitState = {
       type: 'submitted',
-      arrayValue: [1],
       newValue: countState.newValue
     } as SubmitStateType
 
     const newState = submitReducer(countState, submitState)
+
+    expect(newState.arrayValue).toStrictEqual<SubmitStateType['arrayValue']>([1,5])
   })
 })
