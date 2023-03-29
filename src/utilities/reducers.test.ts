@@ -1,4 +1,4 @@
-import { CountActionType, countReducer } from './reducers'
+import { CountActionType, countReducer, submitReducer, SubmitStateType } from './reducers'
 
 describe("DispatchCount", () => {
   test("reducer should add 1 successfully", () => {
@@ -30,5 +30,23 @@ describe("DispatchCount", () => {
     const newState = countReducer(countState as CountActionType, {type: 'changed_input', value: 15} )
 
     expect(newState.value).toBe<CountActionType['value']>(15)
+  })
+})
+
+describe("DispatchSubmitted", () => {
+
+  test("reducer should execute the submitted functionality properly", () => {
+    let countState = {
+      type: 'submitted',
+      newValue: 5
+    } as SubmitStateType
+    
+    let submitState = {
+      type: 'submitted',
+      arrayValue: [1],
+      newValue: countState.newValue
+    } as SubmitStateType
+
+    const newState = submitReducer(countState, submitState)
   })
 })
