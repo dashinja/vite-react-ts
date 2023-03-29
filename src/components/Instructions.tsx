@@ -14,7 +14,7 @@ export default function Instructions({ styles }: InstructionsProps) {
 
   const [submittedState, dispatchSubmitted] = useReducer(submitReducer, InitialSubmitState)
 
-  const previouslySubmittedValues = submittedState.arrayValue.join(', ')
+  const previouslySubmittedValues = submittedState.arrayValue && submittedState.arrayValue.join(', ')
 
   return (
     <div className={styles?.myCenter || "nope"}>
