@@ -1,8 +1,6 @@
-import "vitest-dom/extend-expect"
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Instructions from './Instructions'
-
 
 describe("Instructions component", () => {
   const someStyle = { myCenter: "someClass" }
@@ -21,6 +19,10 @@ describe("Instructions component", () => {
     expect(screen.getByRole('heading')).toBeDefined()
     expect(screen.getByRole('textbox')).toBeDefined()
     expect(screen.getAllByRole('button')).toBeDefined()
+
+    expect(screen.getByRole('heading')).toBeVisible()
+    expect(screen.getByRole('textbox')).toBeVisible()
+    expect(screen.getByTestId('+1')).toBeVisible()
   })
 
   test("should have initial number value as 0", async () => {
