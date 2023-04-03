@@ -1,9 +1,11 @@
+// import * as dotenv from 'dotenv'
+// dotenv.config()
+
 import { CountActionType, countReducer, InitialActionType, InitialSubmitState, submitReducer, SubmitStateType } from '../utilities/reducers'
 import { MouseEventHandler, useReducer } from 'react'
-import axios, { AxiosResponse } from 'axios'
-import dotenv from 'dotenv'
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
+import { submitPost } from '../clients/client'
 
-dotenv.config()
 
 export type StylesType = {
   readonly [key: string]: string
@@ -20,16 +22,18 @@ export default function Instructions({ styles }: InstructionsProps) {
 
   const previouslySubmittedValues = submittedState.arrayValue && submittedState.arrayValue.join(', ')
 
-  const submitUrl = process.env.submitUrl || ''
 
   const submitCall = async (dataToSubmit: number) => {
-    if (submitUrl) {
-      console.log('submitUrl: ', submitUrl)
-      const {data} = await axios.post<AxiosResponse<number, any>>(submitUrl, dataToSubmit)
-      return data
-
-    } else {
-      console.error('Invalid submitUrl')
+    try {
+      const data = await submitPost({data: dataToSubmit})
+      
+      if (data) {
+        console.log('request: ', data.request)
+        const res = data.data
+        return res
+      }
+    } catch (err) {
+      console.error(err)      
       return undefined
     }
   }
@@ -49,7 +53,7 @@ export default function Instructions({ styles }: InstructionsProps) {
   }
 
   return (
-    <div className={styles?.myCenter || "nope"}>
+    <div className={styles?.myCenter || 'nope'}>
       <h3>Main Page</h3>
 
       <form>
@@ -114,7 +118,7 @@ export default function Instructions({ styles }: InstructionsProps) {
       </form>
       <div>
         <label htmlFor='prev-sub'>Previous Submissions</label>
-        <div id='prev-sub'>{previouslySubmittedValues}</div>
+        <div id='prev-sub'>{previouslySubmittedValues && previouslySubmittedValues}</div>
       </div>
     </div>
   )
