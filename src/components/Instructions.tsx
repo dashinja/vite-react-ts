@@ -1,5 +1,9 @@
 import { CountActionType, countReducer, InitialActionType, InitialSubmitState, submitReducer, SubmitStateType } from '../utilities/reducers'
-import { useReducer } from 'react'
+import { MouseEventHandler, useReducer } from 'react'
+import axios, { AxiosResponse } from 'axios'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 export type StylesType = {
   readonly [key: string]: string
@@ -15,6 +19,34 @@ export default function Instructions({ styles }: InstructionsProps) {
   const [submittedState, dispatchSubmitted] = useReducer(submitReducer, InitialSubmitState)
 
   const previouslySubmittedValues = submittedState.arrayValue && submittedState.arrayValue.join(', ')
+
+  const submitUrl = process.env.submitUrl || ''
+
+  const submitCall = async (dataToSubmit: number) => {
+    if (submitUrl) {
+      console.log('submitUrl: ', submitUrl)
+      const {data} = await axios.post<AxiosResponse<number, any>>(submitUrl, dataToSubmit)
+      return data
+
+    } else {
+      console.error('Invalid submitUrl')
+      return undefined
+    }
+  }
+
+  const submitHandler: MouseEventHandler<HTMLButtonElement> = async (e) => {
+    e.preventDefault()
+    
+    const res = await submitCall(countState.value)
+
+    if (res) {
+      dispatchSubmitted({
+        type: 'submitted',
+        arrayValue: submittedState.arrayValue,
+        newValue: res.data
+      } as SubmitStateType)
+    }
+  }
 
   return (
     <div className={styles?.myCenter || "nope"}>
@@ -73,14 +105,7 @@ export default function Instructions({ styles }: InstructionsProps) {
 
 
         <button
-          onClick={(e) => {
-            e.preventDefault()
-            dispatchSubmitted({
-              type: 'submitted',
-              arrayValue: submittedState.arrayValue,
-              newValue: countState.value
-            } as SubmitStateType)
-          }}
+          onClick={submitHandler}
           data-testid={'submit'}
 
         >
