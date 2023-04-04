@@ -4,7 +4,6 @@ const client = axios.create({
   baseURL: import.meta.env.VITE_SUBMIT_URL,
   timeout: 10000,
   headers: {
-    'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json'
   }
 })
