@@ -1,8 +1,5 @@
 import axios, { AxiosError } from 'axios';
 
-console.log('import.meta.env.VITE_SUBMIT_URL: ', import.meta.env.VITE_SUBMIT_URL)
-
-
 const client = axios.create({
   baseURL: import.meta.env.VITE_SUBMIT_URL,
   timeout: 10000,
@@ -11,8 +8,6 @@ const client = axios.create({
     'Content-Type': 'application/json'
   }
 })
-
-console.log("client.getUri(): ", client.getUri())
 
 export const submitPost = async (data: unknown) => {
   try {
