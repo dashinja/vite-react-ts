@@ -1,5 +1,11 @@
+// import * as dotenv from 'dotenv'
+// dotenv.config()
+
 import { CountActionType, countReducer, InitialActionType, InitialSubmitState, submitReducer, SubmitStateType } from '../utilities/reducers'
-import { useReducer } from 'react'
+import { MouseEventHandler, useReducer } from 'react'
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
+import { submitPost } from '../clients/client'
+
 
 export type StylesType = {
   readonly [key: string]: string
@@ -16,8 +22,38 @@ export default function Instructions({ styles }: InstructionsProps) {
 
   const previouslySubmittedValues = submittedState.arrayValue && submittedState.arrayValue.join(', ')
 
+
+  const submitCall = async (dataToSubmit: number) => {
+    try {
+      const data = await submitPost({data: dataToSubmit})
+      
+      if (data) {
+        console.log('request: ', data.request)
+        const res = data.data
+        return res
+      }
+    } catch (err) {
+      console.error(err)      
+      return undefined
+    }
+  }
+
+  const submitHandler: MouseEventHandler<HTMLButtonElement> = async (e) => {
+    e.preventDefault()
+    
+    const res = await submitCall(countState.value)
+
+    if (res) {
+      dispatchSubmitted({
+        type: 'submitted',
+        arrayValue: submittedState.arrayValue,
+        newValue: res.data
+      } as SubmitStateType)
+    }
+  }
+
   return (
-    <div className={styles?.myCenter || "nope"}>
+    <div className={styles?.myCenter || 'nope'}>
       <h3>Main Page</h3>
 
       <form>
@@ -73,14 +109,7 @@ export default function Instructions({ styles }: InstructionsProps) {
 
 
         <button
-          onClick={(e) => {
-            e.preventDefault()
-            dispatchSubmitted({
-              type: 'submitted',
-              arrayValue: submittedState.arrayValue,
-              newValue: countState.value
-            } as SubmitStateType)
-          }}
+          onClick={submitHandler}
           data-testid={'submit'}
 
         >
@@ -89,7 +118,7 @@ export default function Instructions({ styles }: InstructionsProps) {
       </form>
       <div>
         <label htmlFor='prev-sub'>Previous Submissions</label>
-        <div id='prev-sub'>{previouslySubmittedValues}</div>
+        <div id='prev-sub'>{previouslySubmittedValues && previouslySubmittedValues}</div>
       </div>
     </div>
   )
