@@ -25,12 +25,11 @@ export default function Instructions({ styles }: InstructionsProps) {
 
   const submitCall = async (dataToSubmit: number) => {
     try {
-      const data = await submitPost({data: dataToSubmit})
+      const res = await submitPost({data: dataToSubmit})
       
-      if (data) {
-        console.log('request: ', data.request)
-        const res = data.data
-        return res
+      if (res) {
+        const {data} = res
+        return data
       }
     } catch (err) {
       console.error(err)      

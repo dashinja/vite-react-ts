@@ -11,8 +11,8 @@ const client = axios.create({
 export const submitPost = async (data: unknown) => {
   try {
     const dataToSend = JSON.stringify(data)
-    const res = await client.post('/', dataToSend)
-    
+    const res = await client.post('', dataToSend)
+
     if (axios.isAxiosError(data)) {
       console.error(data)
       throw new AxiosError("Axios Failed");
@@ -22,5 +22,4 @@ export const submitPost = async (data: unknown) => {
   } catch (error) {
     return undefined
   }
-
 }
