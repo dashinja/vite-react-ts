@@ -59,3 +59,8 @@ export const submitReducer = (state: SubmitStateType, action: SubmitStateType) =
       return state
   }
 }
+
+export default {
+  submitReducer,
+  countReducer,
+}

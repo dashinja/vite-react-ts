@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios';
+import { CountActionType } from '../utilities/reducers'
 
 const baseURL = import.meta.env.PROD ? import.meta.env.VITE_SUBMIT_URL : import.meta.env.VITE_SUBMIT_URL_DEV
 
@@ -10,9 +11,17 @@ const client = axios.create({
   }
 })
 
-export const submitPost = async (data: unknown) => {
+export const submitPost = async (data: CountActionType['value']) => {
   try {
-    const dataToSend = JSON.stringify(data)
+
+    type DataToSend = {
+      id: number
+      value: number
+    }
+
+    const dataTransform = (data: number): DataToSend => ({value: data, id: 1})
+
+    const dataToSend = dataTransform(data)
     const res = await client.post('', dataToSend)
 
     if (axios.isAxiosError(data)) {
