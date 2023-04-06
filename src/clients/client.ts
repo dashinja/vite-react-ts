@@ -1,7 +1,9 @@
 import axios, { AxiosError } from 'axios';
 
+const baseURL = import.meta.env.PROD ? import.meta.env.VITE_SUBMIT_URL : import.meta.env.VITE_SUBMIT_URL_DEV
+
 const client = axios.create({
-  baseURL: import.meta.env.VITE_SUBMIT_URL,
+  baseURL: baseURL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json'
