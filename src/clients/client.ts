@@ -13,7 +13,7 @@ const client = axios.create({
 
 export const submitPost = async (data: CountActionType['value']) => {
   try {
-    const dataTransform = (data: number): number => data
+    const dataTransform = (data: number): string => data.toString()
 
     const dataToSend = dataTransform(data)
     const res = await client.post('', dataToSend)
