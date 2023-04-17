@@ -19,6 +19,8 @@ export const submitPost = async (data: CountActionType['value']) => {
     // const dataToSend = dataTransform(data)
     const res = await client.post('', data.toString())
 
+    console.log("I'm res.data WOO$$$$$: ", res.data)
+
     if (axios.isAxiosError(data)) {
       console.error(data)
       throw new AxiosError("Axios Failed");
@@ -29,3 +31,5 @@ export const submitPost = async (data: CountActionType['value']) => {
     return undefined
   }
 }
+
+export const getList = async () => (await client.get(client.getUri())).data

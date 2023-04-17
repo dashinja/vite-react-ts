@@ -2,9 +2,9 @@
 // dotenv.config()
 
 import { CountActionType, countReducer, InitialActionType, InitialSubmitState, submitReducer, SubmitStateType } from '../utilities/reducers'
-import { MouseEventHandler, useReducer } from 'react'
+import { MouseEventHandler, useEffect, useReducer, useState } from 'react'
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
-import { submitPost } from '../clients/client'
+import { getList, submitPost } from '../clients/client'
 
 
 export type StylesType = {
@@ -19,6 +19,9 @@ export default function Instructions({ styles }: InstructionsProps) {
   const [countState, dispatchCount] = useReducer(countReducer, InitialActionType)
 
   const [submittedState, dispatchSubmitted] = useReducer(submitReducer, InitialSubmitState)
+
+
+  const [InitialList, setInitialList] = useState<any>();
 
   const previouslySubmittedValues = submittedState.arrayValue && submittedState.arrayValue.join(', ')
 
@@ -50,6 +53,17 @@ export default function Instructions({ styles }: InstructionsProps) {
       } as SubmitStateType)
     }
   }
+
+  useEffect(() => {
+    const initializeList = async () => {
+      const res = await getList()
+      console.log(res)
+      return res
+
+    }
+    const initList = initializeList()
+    setInitialList(initList)
+  }, [])
 
   return (
     <div className={styles?.myCenter || 'nope'}>
@@ -117,7 +131,7 @@ export default function Instructions({ styles }: InstructionsProps) {
       </form>
       <div>
         <label htmlFor='prev-sub'>Previous Submissions</label>
-        <div id='prev-sub'>{previouslySubmittedValues && previouslySubmittedValues}</div>
+        <div id='prev-sub'>{JSON.stringify(InitialList) || previouslySubmittedValues && previouslySubmittedValues}</div>
       </div>
     </div>
   )
