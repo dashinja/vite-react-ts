@@ -14,10 +14,12 @@ const client = axios.create({
 export const submitPost = async (data: CountActionType['value']) => {
   try {
 
-    // const dataTransform = (data: number): DataToSend => ({valuedata, id: 1})
+    type DataToSend = { body: number}
+    
+    const dataTransform = (data: number): DataToSend => ({ "body": data })
 
-    // const dataToSend = dataTransform(data)
-    const res = await client.post('', data.toString())
+    const dataToSend = dataTransform(data)
+    const res = await client.post('', dataToSend)
 
     if (axios.isAxiosError(data)) {
       console.error(data)
