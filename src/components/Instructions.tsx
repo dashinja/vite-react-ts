@@ -67,18 +67,18 @@ export default function Instructions({ styles }: InstructionsProps) {
     }
     
     initializeList()
-  }, [InitialList])
+  }, [])
 
-  // useCallback(() => {
-  //   const initializeList = async () => {
-  //     const res = await getList()
-  //     console.log(res)
-  //     setInitialList(res)
-  //     return res
-  //   }
+  useCallback(() => {
+    const initializeList = async () => {
+      const res = await getList()
+      console.log(res)
+      setInitialList(res)
+      return res
+    }
     
-  //   initializeList()
-  // }, [submitHandler])
+    initializeList()
+  }, [InitialList])
 
   return (
     <div className={styles?.myCenter || 'nope'}>
