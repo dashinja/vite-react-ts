@@ -4,7 +4,7 @@
 import { CountActionType, countReducer, InitialActionType, InitialSubmitState, submitReducer, SubmitStateType } from '../utilities/reducers'
 import { MouseEventHandler, useCallback, useEffect, useReducer, useState } from 'react'
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
-import { getList, submitPost } from '../clients/client'
+import { deleteList, getList, submitPost } from '../clients/client'
 
 
 export type StylesType = {
@@ -85,6 +85,13 @@ export default function Instructions({ styles }: InstructionsProps) {
     initializeList()
   }, [submitCall])
 
+  const deleteHandler: MouseEventHandler<HTMLButtonElement> = async (e) => {
+    e.preventDefault()
+
+    const deleteConfirmation = await deleteList()
+    console.log('deleted: ', deleteConfirmation)
+  }
+
   return (
     <div className={styles?.myCenter || 'nope'}>
       <h3>Main Page</h3>
@@ -149,6 +156,13 @@ export default function Instructions({ styles }: InstructionsProps) {
           Submit
         </button>
       </form>
+      <button
+          onClick={deleteHandler}
+          data-testid={'delete'}
+
+        >
+          Delete List
+        </button>
       <div>
         <label htmlFor='prev-sub'>Previous Submissions</label>
         <div id='prev-sub'>{InitialList?.join(' ') || previouslySubmittedValues && previouslySubmittedValues}</div>
