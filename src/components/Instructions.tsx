@@ -2,7 +2,7 @@
 // dotenv.config()
 
 import { CountActionType, countReducer, InitialActionType, InitialSubmitState, submitReducer, SubmitStateType } from '../utilities/reducers'
-import { MouseEventHandler, useEffect, useReducer, useState } from 'react'
+import { MouseEventHandler, useCallback, useEffect, useReducer, useState } from 'react'
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { getList, submitPost } from '../clients/client'
 
@@ -57,13 +57,12 @@ export default function Instructions({ styles }: InstructionsProps) {
     }
   }
 
-  useEffect(() => {
+  useCallback(() => {
     const initializeList = async () => {
       const res = await getList()
       console.log(res)
       setInitialList(res)
       return res
-
     }
     
     initializeList()
