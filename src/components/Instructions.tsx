@@ -23,6 +23,9 @@ export default function Instructions({ styles }: InstructionsProps) {
 
   const [InitialList, setInitialList] = useState<any>();
 
+
+  console.log("submittedState.arrayValue: ", submittedState.arrayValue)
+  
   const previouslySubmittedValues = submittedState.arrayValue && submittedState.arrayValue.join(', ')
 
 
