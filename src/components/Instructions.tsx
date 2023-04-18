@@ -134,7 +134,7 @@ export default function Instructions({ styles }: InstructionsProps) {
       </form>
       <div>
         <label htmlFor='prev-sub'>Previous Submissions</label>
-        <div id='prev-sub'>{InitialList || previouslySubmittedValues && previouslySubmittedValues}</div>
+        <div id='prev-sub'>{JSON.stringify(InitialList) || previouslySubmittedValues && previouslySubmittedValues}</div>
       </div>
     </div>
   )
