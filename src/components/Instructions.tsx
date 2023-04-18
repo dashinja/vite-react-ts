@@ -67,7 +67,7 @@ export default function Instructions({ styles }: InstructionsProps) {
     }
     
     initializeList()
-  }, [])
+  }, [submitHandler])
 
   return (
     <div className={styles?.myCenter || 'nope'}>
