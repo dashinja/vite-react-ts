@@ -59,18 +59,21 @@ export default function Instructions({ styles }: InstructionsProps) {
         arrayValue: submittedState.arrayValue,
         newValue: res.data
       } as SubmitStateType)
+
+      await initializeList();
     }
   }
 
-  useEffect(() => {
-    const initializeList = async () => {
-      const res = await getList()
-      console.log(res)
-      setInitialList(res)
-      return res
+  const initializeList = async () => {
+    const res = await getList()
+    console.log(res)
+    setInitialList(res)
+    return res
+  }
+  
 
-    }
-    
+  useEffect(() => {
+
     initializeList()
   }, [])
 
@@ -89,7 +92,10 @@ export default function Instructions({ styles }: InstructionsProps) {
     e.preventDefault()
 
     const deleteConfirmation = await deleteList()
-    console.log('deleted: ', deleteConfirmation)
+
+    if (deleteConfirmation.status === 204) {
+      await initializeList()
+    }
   }
 
   return (
