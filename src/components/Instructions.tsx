@@ -62,28 +62,28 @@ export default function Instructions({ styles }: InstructionsProps) {
     }
   }
 
-  useEffect(() => {
-    const initializeList = async () => {
-      const res = await getList()
-      console.log(res)
-      setInitialList(res)
-      return res
-
-    }
-    
-    initializeList()
-  }, [submitCall])
-
-  // useCallback(() => {
+  // useEffect(() => {
   //   const initializeList = async () => {
   //     const res = await getList()
   //     console.log(res)
   //     setInitialList(res)
   //     return res
+
   //   }
     
   //   initializeList()
   // }, [submitCall])
+
+  useCallback(() => {
+    const initializeList = async () => {
+      const res = await getList()
+      console.log(res)
+      setInitialList(res)
+      return res
+    }
+    
+    initializeList()
+  }, [submitCall])
 
   return (
     <div className={styles?.myCenter || 'nope'}>
