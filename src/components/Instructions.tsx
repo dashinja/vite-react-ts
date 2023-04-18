@@ -2,7 +2,7 @@
 // dotenv.config()
 
 import { CountActionType, countReducer, InitialActionType, InitialSubmitState, submitReducer, SubmitStateType } from '../utilities/reducers'
-import { MouseEventHandler, useCallback, useEffect, useLayoutEffect, useReducer, useState } from 'react'
+import { MouseEventHandler, useCallback, useEffect, useReducer, useState } from 'react'
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { getList, submitPost } from '../clients/client'
 
@@ -46,6 +46,11 @@ export default function Instructions({ styles }: InstructionsProps) {
   const submitHandler: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault()
     
+    try {
+      
+    } catch (error) {
+      
+    }
     const res = await submitCall(countState.value)
 
     if (res) {
@@ -67,7 +72,7 @@ export default function Instructions({ styles }: InstructionsProps) {
     }
     
     initializeList()
-  }, [])
+  }, [submitCall])
 
   // useCallback(() => {
   //   const initializeList = async () => {
@@ -78,18 +83,7 @@ export default function Instructions({ styles }: InstructionsProps) {
   //   }
     
   //   initializeList()
-  // }, [submitHandler])
-
-  useLayoutEffect(() => {
-    const initializeList = async () => {
-      const res = await getList()
-      console.log(res)
-      setInitialList(res)
-      return res
-    }
-    
-    initializeList()
-  })
+  // }, [submitCall])
 
   return (
     <div className={styles?.myCenter || 'nope'}>
