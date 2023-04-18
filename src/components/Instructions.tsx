@@ -25,7 +25,7 @@ export default function Instructions({ styles }: InstructionsProps) {
 
 
   console.log("submittedState.arrayValue: ", submittedState.arrayValue)
-  
+
   const previouslySubmittedValues = submittedState.arrayValue && submittedState.arrayValue.join(', ')
 
 
@@ -134,7 +134,7 @@ export default function Instructions({ styles }: InstructionsProps) {
       </form>
       <div>
         <label htmlFor='prev-sub'>Previous Submissions</label>
-        <div id='prev-sub'>{...InitialList || previouslySubmittedValues && previouslySubmittedValues}</div>
+        <div id='prev-sub'>{InitialList || previouslySubmittedValues && previouslySubmittedValues}</div>
       </div>
     </div>
   )
