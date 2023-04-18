@@ -21,7 +21,7 @@ export default function Instructions({ styles }: InstructionsProps) {
   const [submittedState, dispatchSubmitted] = useReducer(submitReducer, InitialSubmitState)
 
 
-  const [InitialList, setInitialList] = useState<any>();
+  const [InitialList, setInitialList] = useState<number[]>();
 
 
   console.log("submittedState.arrayValue: ", submittedState.arrayValue)
@@ -61,11 +61,12 @@ export default function Instructions({ styles }: InstructionsProps) {
     const initializeList = async () => {
       const res = await getList()
       console.log(res)
+      setInitialList(res)
       return res
 
     }
-    const initList = initializeList()
-    setInitialList(initList)
+    
+    initializeList()
   }, [])
 
   return (
@@ -134,7 +135,7 @@ export default function Instructions({ styles }: InstructionsProps) {
       </form>
       <div>
         <label htmlFor='prev-sub'>Previous Submissions</label>
-        <div id='prev-sub'>{JSON.stringify(InitialList) || previouslySubmittedValues && previouslySubmittedValues}</div>
+        <div id='prev-sub'>{InitialList?.join(' ') || previouslySubmittedValues && previouslySubmittedValues}</div>
       </div>
     </div>
   )

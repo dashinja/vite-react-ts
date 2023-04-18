@@ -34,4 +34,4 @@ export const submitPost = async (data: CountActionType['value']) => {
   }
 }
 
-export const getList = async () => (await client.get(client.getUri())).data
+export const getList = async (): Promise<number[]> => (await client.get(client.getUri())).data
