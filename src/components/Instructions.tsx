@@ -62,17 +62,17 @@ export default function Instructions({ styles }: InstructionsProps) {
     }
   }
 
-  // useEffect(() => {
-  //   const initializeList = async () => {
-  //     const res = await getList()
-  //     console.log(res)
-  //     setInitialList(res)
-  //     return res
+  useEffect(() => {
+    const initializeList = async () => {
+      const res = await getList()
+      console.log(res)
+      setInitialList(res)
+      return res
 
-  //   }
+    }
     
-  //   initializeList()
-  // }, [submitCall])
+    initializeList()
+  }, [])
 
   useCallback(() => {
     const initializeList = async () => {
