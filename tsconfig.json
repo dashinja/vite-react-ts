@@ -15,7 +15,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["vitest/globals", "vitest-dom/extend-expect"]
+    "types": ["vitest/globals"]
   },
   "include": ["src", "./vite.config.ts","./vitest-setup.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
