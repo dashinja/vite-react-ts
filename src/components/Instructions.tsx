@@ -1,11 +1,6 @@
-// import * as dotenv from 'dotenv'
-// dotenv.config()
-
-import { CountActionType, countReducer, InitialActionType, InitialSubmitState, submitReducer, SubmitStateType } from '../utilities/reducers'
-import { MouseEventHandler, useReducer } from 'react'
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
-import { submitPost } from '../clients/client'
-
+import { CountActionType, countReducer, InitialActionType } from '../utilities/reducers'
+import { MouseEventHandler, useEffect, useReducer, useState } from 'react'
+import { deleteList, getList, submitPost } from '../clients/client'
 
 export type StylesType = {
   readonly [key: string]: string
@@ -18,36 +13,60 @@ type InstructionsProps = {
 export default function Instructions({ styles }: InstructionsProps) {
   const [countState, dispatchCount] = useReducer(countReducer, InitialActionType)
 
-  const [submittedState, dispatchSubmitted] = useReducer(submitReducer, InitialSubmitState)
+  const [InitialList, setInitialList] = useState<number[]>()
 
-  const previouslySubmittedValues = submittedState.arrayValue && submittedState.arrayValue.join(', ')
-
-
+  /**
+   * Submits data to Lambda
+   */
   const submitCall = async (dataToSubmit: number) => {
     try {
-      const res = await submitPost({data: dataToSubmit})
-      
+      const res = await submitPost(dataToSubmit)
+
       if (res) {
-        const {data} = res
+        const { data } = res
         return data
       }
     } catch (err) {
-      console.error(err)      
+      console.error(err)
       return undefined
     }
   }
 
   const submitHandler: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault()
-    
-    const res = await submitCall(countState.value)
 
-    if (res) {
-      dispatchSubmitted({
-        type: 'submitted',
-        arrayValue: submittedState.arrayValue,
-        newValue: res.data
-      } as SubmitStateType)
+    try {
+      const res = await submitCall(countState.value)
+
+      if (res) {
+        await initializeList()
+      }
+
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  /**
+   * Sets initial list value to be read upon first page load
+   */
+  const initializeList = async () => {
+    const res = await getList()
+    setInitialList(res)
+    return res
+  }
+
+  useEffect(() => {
+    initializeList()
+  }, [])
+
+  const deleteHandler: MouseEventHandler<HTMLButtonElement> = async (e) => {
+    e.preventDefault()
+
+    const deleteConfirmation = await deleteList()
+
+    if (deleteConfirmation.status === 204) {
+      await initializeList()
     }
   }
 
@@ -101,23 +120,26 @@ export default function Instructions({ styles }: InstructionsProps) {
           }
           }
           data-testid={'-1'}
-
         >
           -1 Value
         </button>
 
-
         <button
           onClick={submitHandler}
           data-testid={'submit'}
-
         >
           Submit
         </button>
       </form>
+      <button
+        onClick={deleteHandler}
+        data-testid={'delete'}
+      >
+        Delete List
+      </button>
       <div>
         <label htmlFor='prev-sub'>Previous Submissions</label>
-        <div id='prev-sub'>{previouslySubmittedValues && previouslySubmittedValues}</div>
+        <div id='prev-sub'>{InitialList?.join(' ')}</div>
       </div>
     </div>
   )
