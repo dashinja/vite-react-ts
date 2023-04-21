@@ -49,8 +49,6 @@ export const InitialSubmitState = {
 export const submitReducer = (state: SubmitStateType, action: SubmitStateType) => {
   switch (action.type) {
     case 'submitted':
-      console.log("submitReducer action.newValue: ", action.newValue)
-      console.log("submitReducer state.arrayValue: ", state.arrayValue)
       return {
         ...state,
       arrayValue: state.arrayValue?.length ? [...state.arrayValue, action.newValue] : [action.newValue]

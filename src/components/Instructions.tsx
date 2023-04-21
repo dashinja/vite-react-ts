@@ -1,11 +1,6 @@
-// import * as dotenv from 'dotenv'
-// dotenv.config()
-
 import { CountActionType, countReducer, InitialActionType, InitialSubmitState, submitReducer, SubmitStateType } from '../utilities/reducers'
 import { MouseEventHandler, useCallback, useEffect, useReducer, useState } from 'react'
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { deleteList, getList, submitPost } from '../clients/client'
-
 
 export type StylesType = {
   readonly [key: string]: string
@@ -20,14 +15,9 @@ export default function Instructions({ styles }: InstructionsProps) {
 
   const [submittedState, dispatchSubmitted] = useReducer(submitReducer, InitialSubmitState)
 
-
   const [InitialList, setInitialList] = useState<number[]>();
 
-
-  console.log("submittedState.arrayValue: ", submittedState.arrayValue)
-
   const previouslySubmittedValues = submittedState.arrayValue && submittedState.arrayValue.join(', ')
-
 
   const submitCall = async (dataToSubmit: number) => {
     try {
@@ -66,21 +56,17 @@ export default function Instructions({ styles }: InstructionsProps) {
 
   const initializeList = async () => {
     const res = await getList()
-    console.log(res)
     setInitialList(res)
     return res
   }
-  
 
   useEffect(() => {
-
     initializeList()
   }, [])
 
   useCallback(() => {
     const initializeList = async () => {
       const res = await getList()
-      console.log(res)
       setInitialList(res)
       return res
     }
@@ -148,7 +134,6 @@ export default function Instructions({ styles }: InstructionsProps) {
           }
           }
           data-testid={'-1'}
-
         >
           -1 Value
         </button>
@@ -157,7 +142,6 @@ export default function Instructions({ styles }: InstructionsProps) {
         <button
           onClick={submitHandler}
           data-testid={'submit'}
-
         >
           Submit
         </button>
@@ -165,7 +149,6 @@ export default function Instructions({ styles }: InstructionsProps) {
       <button
           onClick={deleteHandler}
           data-testid={'delete'}
-
         >
           Delete List
         </button>
