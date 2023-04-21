@@ -1,7 +1,9 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Instructions from './Instructions'
+import { submitPost } from '../clients/client'
 
+vitest.mock("../clients/client.ts")
 describe("Instructions component", () => {
   const someStyle = { myCenter: "someClass" }
 
@@ -62,6 +64,21 @@ describe("Instructions component", () => {
     
     await waitFor(async () => {
       expect(await numberBox()).toHaveValue('-2')
+    })
+  })
+
+  test("should call the submitPost function when the submit button is clicked", async () => {
+    const buttonToSubmit = submitButton()
+    const addOneButton = plusButton()
+
+    userEvent.click(addOneButton)
+    userEvent.click(addOneButton)
+    userEvent.click(buttonToSubmit)
+
+    await waitFor(() => {
+      expect(submitPost).toHaveBeenCalledOnce()
+      expect(submitPost).toHaveBeenCalledWith(2)
+
     })
   })
 })

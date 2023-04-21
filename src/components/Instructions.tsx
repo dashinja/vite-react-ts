@@ -18,7 +18,7 @@ export default function Instructions({ styles }: InstructionsProps) {
   const [InitialList, setInitialList] = useState<number[]>()
 
   const previouslySubmittedValues = submittedState.arrayValue && submittedState.arrayValue.join(', ')
-
+  
   const submitCall = async (dataToSubmit: number) => {
     try {
       const res = await submitPost(dataToSubmit)
@@ -37,20 +37,14 @@ export default function Instructions({ styles }: InstructionsProps) {
     e.preventDefault()
 
     try {
+      const res = await submitCall(countState.value)
+
+      if (res) {
+        await initializeList()
+      }
 
     } catch (error) {
-
-    }
-    const res = await submitCall(countState.value)
-
-    if (res) {
-      dispatchSubmitted({
-        type: 'submitted',
-        arrayValue: submittedState.arrayValue,
-        newValue: res.data
-      } as SubmitStateType)
-
-      await initializeList()
+      console.error(error)
     }
   }
 
@@ -154,7 +148,7 @@ export default function Instructions({ styles }: InstructionsProps) {
       </button>
       <div>
         <label htmlFor='prev-sub'>Previous Submissions</label>
-        <div id='prev-sub'>{InitialList?.join(' ') || previouslySubmittedValues && previouslySubmittedValues}</div>
+        <div id='prev-sub'>{InitialList?.join(' ')}</div>
       </div>
     </div>
   )
