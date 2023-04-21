@@ -9,12 +9,12 @@ export const InitialActionType: CountActionType = {
 }
 
 export function countReducer(state: CountActionType, action: CountActionType): CountActionType {
-  switch(action.type) {
+  switch (action.type) {
     case 'changed_input':
       return {
         ...state,
-       value: action.value
-      } 
+        value: action.value
+      }
 
     case '+1':
       return {
@@ -41,8 +41,8 @@ export type SubmitStateType = {
 }
 
 export const InitialSubmitState = {
-  type: 'submitted', 
-  arrayValue: [], 
+  type: 'submitted',
+  arrayValue: [],
   newValue: 0
 } as SubmitStateType
 
@@ -51,9 +51,9 @@ export const submitReducer = (state: SubmitStateType, action: SubmitStateType) =
     case 'submitted':
       return {
         ...state,
-      arrayValue: state.arrayValue?.length ? [...state.arrayValue, action.newValue] : [action.newValue]
+        arrayValue: state.arrayValue?.length ? [...state.arrayValue, action.newValue] : [action.newValue]
       } as unknown as SubmitStateType
-  
+
     default:
       console.error('Unknown action type')
       return state

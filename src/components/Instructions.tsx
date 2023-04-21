@@ -15,31 +15,31 @@ export default function Instructions({ styles }: InstructionsProps) {
 
   const [submittedState, dispatchSubmitted] = useReducer(submitReducer, InitialSubmitState)
 
-  const [InitialList, setInitialList] = useState<number[]>();
+  const [InitialList, setInitialList] = useState<number[]>()
 
   const previouslySubmittedValues = submittedState.arrayValue && submittedState.arrayValue.join(', ')
 
   const submitCall = async (dataToSubmit: number) => {
     try {
       const res = await submitPost(dataToSubmit)
-      
+
       if (res) {
-        const {data} = res
+        const { data } = res
         return data
       }
     } catch (err) {
-      console.error(err)      
+      console.error(err)
       return undefined
     }
   }
 
   const submitHandler: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault()
-    
+
     try {
-      
+
     } catch (error) {
-      
+
     }
     const res = await submitCall(countState.value)
 
@@ -50,7 +50,7 @@ export default function Instructions({ styles }: InstructionsProps) {
         newValue: res.data
       } as SubmitStateType)
 
-      await initializeList();
+      await initializeList()
     }
   }
 
@@ -70,7 +70,7 @@ export default function Instructions({ styles }: InstructionsProps) {
       setInitialList(res)
       return res
     }
-    
+
     initializeList()
   }, [submitCall])
 
@@ -147,11 +147,11 @@ export default function Instructions({ styles }: InstructionsProps) {
         </button>
       </form>
       <button
-          onClick={deleteHandler}
-          data-testid={'delete'}
-        >
-          Delete List
-        </button>
+        onClick={deleteHandler}
+        data-testid={'delete'}
+      >
+        Delete List
+      </button>
       <div>
         <label htmlFor='prev-sub'>Previous Submissions</label>
         <div id='prev-sub'>{InitialList?.join(' ') || previouslySubmittedValues && previouslySubmittedValues}</div>
