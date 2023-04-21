@@ -1,17 +1,31 @@
 import axios, { AxiosError } from 'axios';
+import { CountActionType } from '../utilities/reducers'
 
+const baseURL = import.meta.env.PROD ? import.meta.env.VITE_SUBMIT_URL : import.meta.env.VITE_SUBMIT_URL_DEV
+
+/**
+ * Calls AWS Lambda Gateway
+ */
 const client = axios.create({
-  baseURL: import.meta.env.VITE_SUBMIT_URL,
+  baseURL: baseURL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json'
   }
 })
 
-export const submitPost = async (data: unknown) => {
+/**
+ * Adds to list
+ */
+export const submitPost = async (data: CountActionType['value']) => {
   try {
-    const dataToSend = JSON.stringify(data)
-    const res = await client.post('', dataToSend)
+
+    type DataToSend = { body: string}
+    
+    const dataTransform = (data: number): DataToSend => ({ body: data.toString() })
+
+    const dataToSend = dataTransform(data)
+    const res = await client.post('', JSON.stringify(dataToSend))
 
     if (axios.isAxiosError(data)) {
       console.error(data)
@@ -23,3 +37,13 @@ export const submitPost = async (data: unknown) => {
     return undefined
   }
 }
+
+/**
+ * Retrieves list value
+ */
+export const getList = async (): Promise<number[]> => (await client.get(client.getUri())).data
+
+/**
+ * Deletes list value
+ */
+export const deleteList = async () => await client.delete(client.getUri())
