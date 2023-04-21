@@ -46,6 +46,10 @@ export const InitialSubmitState = {
   newValue: 0
 } as SubmitStateType
 
+
+/**
+ * Currently unused in favor of backend calls via client.ts
+ */
 export const submitReducer = (state: SubmitStateType, action: SubmitStateType) => {
   switch (action.type) {
     case 'submitted':

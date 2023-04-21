@@ -4,6 +4,7 @@ import Instructions from './Instructions'
 import { submitPost } from '../clients/client'
 
 vitest.mock("../clients/client.ts")
+
 describe("Instructions component", () => {
   const someStyle = { myCenter: "someClass" }
 
@@ -37,7 +38,6 @@ describe("Instructions component", () => {
     const addOne = plusButton()
     userEvent.click(addOne)
 
-    
     await waitFor(async () => {
       expect(await numberBox()).toHaveValue('1')
     })
@@ -54,7 +54,6 @@ describe("Instructions component", () => {
 
     const subtractOne = minusButton()
     userEvent.click(subtractOne)
-
     
     await waitFor(async () => {
       expect(await numberBox()).toHaveValue('-1')
@@ -78,7 +77,6 @@ describe("Instructions component", () => {
     await waitFor(() => {
       expect(submitPost).toHaveBeenCalledOnce()
       expect(submitPost).toHaveBeenCalledWith(2)
-
     })
   })
 })

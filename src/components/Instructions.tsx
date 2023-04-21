@@ -1,5 +1,5 @@
-import { CountActionType, countReducer, InitialActionType, InitialSubmitState, submitReducer, SubmitStateType } from '../utilities/reducers'
-import { MouseEventHandler, useCallback, useEffect, useReducer, useState } from 'react'
+import { CountActionType, countReducer, InitialActionType } from '../utilities/reducers'
+import { MouseEventHandler, useEffect, useReducer, useState } from 'react'
 import { deleteList, getList, submitPost } from '../clients/client'
 
 export type StylesType = {
@@ -13,12 +13,11 @@ type InstructionsProps = {
 export default function Instructions({ styles }: InstructionsProps) {
   const [countState, dispatchCount] = useReducer(countReducer, InitialActionType)
 
-  const [submittedState, dispatchSubmitted] = useReducer(submitReducer, InitialSubmitState)
-
   const [InitialList, setInitialList] = useState<number[]>()
 
-  const previouslySubmittedValues = submittedState.arrayValue && submittedState.arrayValue.join(', ')
-  
+  /**
+   * Submits data to Lambda
+   */
   const submitCall = async (dataToSubmit: number) => {
     try {
       const res = await submitPost(dataToSubmit)
@@ -48,6 +47,9 @@ export default function Instructions({ styles }: InstructionsProps) {
     }
   }
 
+  /**
+   * Sets initial list value to be read upon first page load
+   */
   const initializeList = async () => {
     const res = await getList()
     setInitialList(res)
@@ -57,16 +59,6 @@ export default function Instructions({ styles }: InstructionsProps) {
   useEffect(() => {
     initializeList()
   }, [])
-
-  useCallback(() => {
-    const initializeList = async () => {
-      const res = await getList()
-      setInitialList(res)
-      return res
-    }
-
-    initializeList()
-  }, [submitCall])
 
   const deleteHandler: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault()
@@ -131,7 +123,6 @@ export default function Instructions({ styles }: InstructionsProps) {
         >
           -1 Value
         </button>
-
 
         <button
           onClick={submitHandler}

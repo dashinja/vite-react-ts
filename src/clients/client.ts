@@ -3,6 +3,9 @@ import { CountActionType } from '../utilities/reducers'
 
 const baseURL = import.meta.env.PROD ? import.meta.env.VITE_SUBMIT_URL : import.meta.env.VITE_SUBMIT_URL_DEV
 
+/**
+ * Calls AWS Lambda Gateway
+ */
 const client = axios.create({
   baseURL: baseURL,
   timeout: 10000,
@@ -11,6 +14,9 @@ const client = axios.create({
   }
 })
 
+/**
+ * Adds to list
+ */
 export const submitPost = async (data: CountActionType['value']) => {
   try {
 
@@ -32,6 +38,12 @@ export const submitPost = async (data: CountActionType['value']) => {
   }
 }
 
+/**
+ * Retrieves list value
+ */
 export const getList = async (): Promise<number[]> => (await client.get(client.getUri())).data
 
+/**
+ * Deletes list value
+ */
 export const deleteList = async () => await client.delete(client.getUri())
