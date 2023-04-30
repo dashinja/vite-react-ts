@@ -14,6 +14,7 @@ export default function Instructions({ styles }: InstructionsProps) {
   const [countState, dispatchCount] = useReducer(countReducer, InitialActionType)
 
   const [InitialList, setInitialList] = useState<number[]>()
+  const [numberInputFilled, setNumberInputFilled] = useState<boolean>()
 
   /**
    * Submits data to Lambda
@@ -83,15 +84,16 @@ export default function Instructions({ styles }: InstructionsProps) {
           onChange={(e) => {
             const isInputFilled = !Number.isNaN(parseInt(e.target.value))
 
-            isInputFilled ?
+            isInputFilled && setNumberInputFilled(true)
               dispatchCount({
                 type: 'changed_input',
                 value: parseInt(e.target.value)
-              } as CountActionType) :
-              dispatchCount({
-                type: 'changed_input',
-                value: 0
-              })
+              } as CountActionType) 
+              // :
+              // dispatchCount({
+              //   type: 'changed_input',
+              //   value: 0
+              // })
           }}
           value={countState.value}
         />
@@ -102,8 +104,9 @@ export default function Instructions({ styles }: InstructionsProps) {
             e.preventDefault()
             dispatchCount({
               type: '+1',
-              value: countState.value
+              value: countState.value || 1
             } as CountActionType)
+            setNumberInputFilled(true)
           }}
           data-testid={'+1'}
         >
@@ -117,6 +120,7 @@ export default function Instructions({ styles }: InstructionsProps) {
               type: '-1',
               value: countState.value
             } as CountActionType)
+            setNumberInputFilled(true)
           }
           }
           data-testid={'-1'}
@@ -127,6 +131,7 @@ export default function Instructions({ styles }: InstructionsProps) {
         <button
           onClick={submitHandler}
           data-testid={'submit'}
+          disabled={!numberInputFilled}
         >
           Submit
         </button>

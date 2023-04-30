@@ -1,11 +1,10 @@
 export type CountActionType = {
   type: 'changed_input' | '+1' | '-1'
-  value: number
+  value?: number
 }
 
 export const InitialActionType: CountActionType = {
   type: '+1',
-  value: 0
 }
 
 export function countReducer(state: CountActionType, action: CountActionType): CountActionType {
@@ -19,13 +18,13 @@ export function countReducer(state: CountActionType, action: CountActionType): C
     case '+1':
       return {
         ...state,
-        value: state.value + 1
+        value: state.value ? state.value + 1 : 1
       }
 
     case '-1':
       return {
         ...state,
-        value: state.value - 1
+        value: state.value ? state.value - 1 : -1
       }
 
     default:
