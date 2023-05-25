@@ -1,6 +1,17 @@
-import { CountActionType, countReducer, InitialActionType } from '../utilities/reducers'
-import { MouseEventHandler, useEffect, useReducer, useState } from 'react'
+import {
+  CountActionType,
+  countReducer,
+  InitialActionType,
+} from '../utilities/reducers'
+import {
+  MouseEventHandler,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from 'react'
 import { deleteList, getList, submitPost } from '../clients/client'
+import clientContext from '../context/ClientContext'
 
 export type StylesType = {
   readonly [key: string]: string
@@ -11,17 +22,21 @@ type InstructionsProps = {
 }
 
 export default function Instructions({ styles }: InstructionsProps) {
-  const [countState, dispatchCount] = useReducer(countReducer, InitialActionType)
+  const [countState, dispatchCount] = useReducer(
+    countReducer,
+    InitialActionType
+  )
 
   const [InitialList, setInitialList] = useState<number[]>()
   const [numberInputFilled, setNumberInputFilled] = useState<boolean>()
 
+  const client = useContext(clientContext)
   /**
    * Submits data to Lambda
    */
   const submitCall = async (dataToSubmit: number) => {
     try {
-      const res = await submitPost(dataToSubmit)
+      const res = await client.submitPost(dataToSubmit)
 
       if (res) {
         const { data } = res
@@ -35,16 +50,16 @@ export default function Instructions({ styles }: InstructionsProps) {
 
   const submitHandler: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault()
+    if (countState.value) {
+      try {
+        const res = await submitCall(countState.value)
 
-    try {
-      const res = await submitCall(countState.value)
-
-      if (res) {
-        await initializeList()
+        if (res) {
+          await initializeList()
+        }
+      } catch (error) {
+        console.error(error)
       }
-
-    } catch (error) {
-      console.error(error)
     }
   }
 
@@ -52,7 +67,7 @@ export default function Instructions({ styles }: InstructionsProps) {
    * Sets initial list value to be read upon first page load
    */
   const initializeList = async () => {
-    const res = await getList()
+    const res = await client.getList()
     setInitialList(res)
     return res
   }
@@ -64,7 +79,7 @@ export default function Instructions({ styles }: InstructionsProps) {
   const deleteHandler: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault()
 
-    const deleteConfirmation = await deleteList()
+    const deleteConfirmation = await client.deleteList()
 
     if (deleteConfirmation.status === 204) {
       await initializeList()
@@ -85,15 +100,15 @@ export default function Instructions({ styles }: InstructionsProps) {
             const isInputFilled = !Number.isNaN(parseInt(e.target.value))
 
             isInputFilled && setNumberInputFilled(true)
-              dispatchCount({
-                type: 'changed_input',
-                value: parseInt(e.target.value)
-              } as CountActionType) 
-              // :
-              // dispatchCount({
-              //   type: 'changed_input',
-              //   value: 0
-              // })
+            dispatchCount({
+              type: 'changed_input',
+              value: parseInt(e.target.value),
+            } as CountActionType)
+            // :
+            // dispatchCount({
+            //   type: 'changed_input',
+            //   value: 0
+            // })
           }}
           value={countState.value}
         />
@@ -104,7 +119,7 @@ export default function Instructions({ styles }: InstructionsProps) {
             e.preventDefault()
             dispatchCount({
               type: '+1',
-              value: countState.value || 1
+              value: countState.value || 1,
             } as CountActionType)
             setNumberInputFilled(true)
           }}
@@ -118,11 +133,10 @@ export default function Instructions({ styles }: InstructionsProps) {
             e.preventDefault()
             dispatchCount({
               type: '-1',
-              value: countState.value
+              value: countState.value,
             } as CountActionType)
             setNumberInputFilled(true)
-          }
-          }
+          }}
           data-testid={'-1'}
         >
           -1 Value
@@ -136,10 +150,7 @@ export default function Instructions({ styles }: InstructionsProps) {
           Submit
         </button>
       </form>
-      <button
-        onClick={deleteHandler}
-        data-testid={'delete'}
-      >
+      <button onClick={deleteHandler} data-testid={'delete'}>
         Delete List
       </button>
       <div>
