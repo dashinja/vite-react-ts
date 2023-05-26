@@ -3,15 +3,8 @@ import {
   countReducer,
   InitialActionType,
 } from '../utilities/reducers'
-import {
-  MouseEventHandler,
-  useContext,
-  useEffect,
-  useReducer,
-  useState,
-} from 'react'
-import { deleteList, getList, submitPost } from '../clients/client'
-import clientContext from '../context/ClientContext'
+import { MouseEventHandler, useEffect, useReducer, useState } from 'react'
+import { useClientContext } from '../context/ClientContext'
 
 export type StylesType = {
   readonly [key: string]: string
@@ -30,7 +23,7 @@ export default function Instructions({ styles }: InstructionsProps) {
   const [InitialList, setInitialList] = useState<number[]>()
   const [numberInputFilled, setNumberInputFilled] = useState<boolean>()
 
-  const client = useContext(clientContext)
+  const client = useClientContext()
   /**
    * Submits data to Lambda
    */

@@ -11,4 +11,4 @@ afterEach(() => {
 })
 afterAll(() => server.close())
 
-export {rest, server}
+export { rest, server }
