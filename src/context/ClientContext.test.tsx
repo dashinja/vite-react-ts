@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import { renderHook } from '@testing-library/react'
 import { ClientContextProvider, useClientContext } from './ClientContext'
 import { rest, server } from '../../vitest.setup'

@@ -5,7 +5,7 @@ export const handlers = [
   rest.get(baseURL, (req, res, ctx) => {
     const listValue = sessionStorage.getItem('listValue')
 
-    return res(ctx.status(200), ctx.json(JSON.parse(listValue || '[]')))
+    return res(ctx.status(200), ctx.json(JSON.parse(listValue ?? '[]')))
   }),
 
   rest.post(baseURL, (req, res, ctx) => {

@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios'
-import { CountActionType } from '../utilities/reducers'
+import { type CountActionType } from '../utilities/reducers'
 
 export const baseURL = import.meta.env.PROD
   ? import.meta.env.VITE_SUBMIT_URL
@@ -9,7 +9,7 @@ export const baseURL = import.meta.env.PROD
  * Calls AWS Lambda Gateway
  */
 const client = axios.create({
-  baseURL: baseURL,
+  baseURL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -22,7 +22,7 @@ const client = axios.create({
 export const submitPost = async (data: CountActionType['value']) => {
   if (data) {
     try {
-      type DataToSend = { body: string }
+      interface DataToSend { body: string }
 
       const dataTransform = (data: number): DataToSend => ({
         body: data.toString(),
