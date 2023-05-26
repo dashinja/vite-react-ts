@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios'
 import { CountActionType } from '../utilities/reducers'
 
-const baseURL = import.meta.env.PROD
+export const baseURL = import.meta.env.PROD
   ? import.meta.env.VITE_SUBMIT_URL
   : import.meta.env.VITE_SUBMIT_URL_DEV
 

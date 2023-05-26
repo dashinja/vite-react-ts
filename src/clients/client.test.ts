@@ -1,8 +1,8 @@
-import { deleteList, getList, submitPost } from './client'
+import { deleteList, getList, submitPost, baseURL as baseUrl } from './client'
 import { waitFor } from '@testing-library/react'
 import { rest, server } from '../../vitest.setup'
 
-const baseUrl = import.meta.env.VITE_SUBMIT_URL_DEV
+// const baseUrl = import.meta.env.VITE_SUBMIT_URL_DEV
 
 describe('Client', () => {
   test('should return a list when calling getList', async () => {
