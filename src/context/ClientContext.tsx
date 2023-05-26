@@ -7,9 +7,7 @@ type ClientContext = {
   submitPost: (
     data: CountActionType['value']
   ) => Promise<AxiosResponse<any, any> | undefined>
-
   getList: () => Promise<number[]>
-
   deleteList: () => Promise<AxiosResponse<any, any>>
 }
 

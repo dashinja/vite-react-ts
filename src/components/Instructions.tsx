@@ -97,11 +97,6 @@ export default function Instructions({ styles }: InstructionsProps) {
               type: 'changed_input',
               value: parseInt(e.target.value),
             } as CountActionType)
-            // :
-            // dispatchCount({
-            //   type: 'changed_input',
-            //   value: 0
-            // })
           }}
           value={countState.value}
         />
@@ -143,7 +138,10 @@ export default function Instructions({ styles }: InstructionsProps) {
           Submit
         </button>
       </form>
-      <button onClick={deleteHandler} data-testid={'delete'}>
+      <button
+        onClick={deleteHandler}
+        data-testid={'delete'}
+      >
         Delete List
       </button>
       <div>

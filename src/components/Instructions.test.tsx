@@ -34,7 +34,6 @@ describe('Instructions component', () => {
   test('should have submit button disabled when without input', async () => {
     const box = await numberBox()
     expect(box).toHaveTextContent('')
-    // expect(await numberBox()).toHaveValue('0')
     expect(submitButton()).toBeDisabled()
   })
 
@@ -76,12 +75,9 @@ describe('Instructions component', () => {
     const buttonToSubmit = submitButton()
     const addOneButton = plusButton()
 
-    screen.debug()
-
     userEvent.click(addOneButton)
     userEvent.click(addOneButton)
 
-    screen.debug()
     userEvent.click(buttonToSubmit)
 
     await waitFor(() => {
