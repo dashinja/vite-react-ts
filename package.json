@@ -17,7 +17,7 @@
     "prepare": "husky install",
     "lint-staged": "lint-staged --quiet",
     "pretty-quick": "pretty-quick --staged",
-    "prettier-format-all": "npx prettier --config .prettierrc.json \"src/**/*.(ts|tsx)\" --write"
+    "prettier-format-all": "npx prettier --config .prettierrc \"src/**/*.(ts|tsx)\" --write"
   },
   "eslintConfig": {
     "extends": [
@@ -74,7 +74,7 @@
     "vite-plugin-qrcode": "^0.2.1",
     "vite-plugin-tips": "^2.1.0",
     "vitest": "^0.31.4",
-    "vitest-dom": "^0.0.4"
+    "vitest-dom": "^0.1.0"
   },
   "msw": {
     "workerDirectory": "public"

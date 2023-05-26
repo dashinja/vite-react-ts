@@ -25,9 +25,13 @@ describe('Client', () => {
 
     await submitPost(4)
 
-    await waitFor(async () => { await expect(getList()).resolves.toHaveLength(4); })
+    await waitFor(async () => {
+      await expect(getList()).resolves.toHaveLength(4)
+    })
 
     await deleteList()
-    await waitFor(async () => { await expect(getList()).resolves.toHaveLength(0); })
+    await waitFor(async () => {
+      await expect(getList()).resolves.toHaveLength(0)
+    })
   })
 })

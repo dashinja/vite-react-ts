@@ -5,7 +5,6 @@ import { submitPost } from '../clients/client'
 import { vitest } from 'vitest'
 
 vitest.mock('../clients/client.ts')
-
 describe('Instructions component', () => {
   const someStyle = { myCenter: 'someClass' }
 

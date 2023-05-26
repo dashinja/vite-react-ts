@@ -15,7 +15,11 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["vitest/globals"]
+    "types": [
+      "vitest/globals",
+      "vitest-dom/dist/matchers",
+      "vitest-dom/dist/extend-expect"
+    ]
   },
   "include": [
     "src/**/*",

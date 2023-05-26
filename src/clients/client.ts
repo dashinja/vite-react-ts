@@ -22,7 +22,9 @@ const client = axios.create({
 export const submitPost = async (data: CountActionType['value']) => {
   if (data) {
     try {
-      interface DataToSend { body: string }
+      interface DataToSend {
+        body: string
+      }
 
       const dataTransform = (data: number): DataToSend => ({
         body: data.toString(),
