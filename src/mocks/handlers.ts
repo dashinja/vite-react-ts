@@ -1,8 +1,5 @@
 import { rest } from 'msw'
-
-const baseURL = import.meta.env.PROD
-  ? import.meta.env.VITE_SUBMIT_URL
-  : import.meta.env.VITE_SUBMIT_URL_DEV
+import { baseURL } from '../clients/client'
 
 export const handlers = [
   rest.get(baseURL, (req, res, ctx) => {
@@ -28,8 +25,7 @@ export const handlers = [
   rest.get('*', (req, res, ctx) => {
     console.error(`Please add request handler for ${req.url.toString()}`)
     return res(ctx.status(500))
-  })
-
+  }),
 ]
 
-export {rest}
+export { rest }
