@@ -1,9 +1,10 @@
-import React, { createContext, useContext, useState } from 'react'
-import { CountActionType } from '../utilities/reducers'
-import { AxiosResponse } from 'axios'
+import type React from 'react'
+import { createContext, useContext } from 'react'
+import { type CountActionType } from '../utilities/reducers'
+import { type AxiosResponse } from 'axios'
 import { submitPost, getList, deleteList } from '../clients/client'
 
-type ClientContext = {
+interface ClientContext {
   submitPost: (
     data: CountActionType['value']
   ) => Promise<AxiosResponse<any, any> | undefined>
@@ -17,7 +18,7 @@ const initClientContext: ClientContext = {
   deleteList,
 }
 
-const ClientContext = createContext<ClientContext>(initClientContext)
+const CreatedClientContext = createContext<ClientContext>(initClientContext)
 
 export const ClientContextProvider = ({
   children,
@@ -25,14 +26,14 @@ export const ClientContextProvider = ({
   children: React.ReactNode
 }) => {
   return (
-    <ClientContext.Provider value={{ ...initClientContext }}>
+    <CreatedClientContext.Provider value={{ ...initClientContext }}>
       {children}
-    </ClientContext.Provider>
+    </CreatedClientContext.Provider>
   )
 }
 
 export const useClientContext = () => {
-  const context = useContext(ClientContext)
+  const context = useContext(CreatedClientContext)
   if (!context) {
     console.log('Error about to happen!')
     throw new Error(

@@ -3,10 +3,8 @@ import userEvent from '@testing-library/user-event'
 import Instructions from './Instructions'
 import { submitPost } from '../clients/client'
 import { vitest } from 'vitest'
-import React from 'react'
 
 vitest.mock('../clients/client.ts')
-
 describe('Instructions component', () => {
   const someStyle = { myCenter: 'someClass' }
 
@@ -14,8 +12,8 @@ describe('Instructions component', () => {
     render(<Instructions styles={someStyle} />)
   })
 
-  const numberBox = () =>
-    screen.findByRole('textbox', { name: /choose an initial number/i })
+  const numberBox = async () =>
+    await screen.findByRole('textbox', { name: /choose an initial number/i })
 
   const plusButton = () => screen.getByTestId('+1')
   const minusButton = () => screen.getByTestId('-1')
@@ -41,13 +39,13 @@ describe('Instructions component', () => {
     expect(await numberBox()).toHaveValue('')
 
     const addOne = plusButton()
-    userEvent.click(addOne)
+    void userEvent.click(addOne)
 
     await waitFor(async () => {
       expect(await numberBox()).toHaveValue('1')
     })
 
-    userEvent.click(addOne)
+    void userEvent.click(addOne)
 
     await waitFor(async () => {
       expect(await numberBox()).toHaveValue('2')
@@ -58,13 +56,13 @@ describe('Instructions component', () => {
     expect(await numberBox()).toHaveValue('')
 
     const subtractOne = minusButton()
-    userEvent.click(subtractOne)
+    void userEvent.click(subtractOne)
 
     await waitFor(async () => {
       expect(await numberBox()).toHaveValue('-1')
     })
 
-    userEvent.click(subtractOne)
+    void userEvent.click(subtractOne)
 
     await waitFor(async () => {
       expect(await numberBox()).toHaveValue('-2')
@@ -75,10 +73,10 @@ describe('Instructions component', () => {
     const buttonToSubmit = submitButton()
     const addOneButton = plusButton()
 
-    userEvent.click(addOneButton)
-    userEvent.click(addOneButton)
+    void userEvent.click(addOneButton)
+    void userEvent.click(addOneButton)
 
-    userEvent.click(buttonToSubmit)
+    void userEvent.click(buttonToSubmit)
 
     await waitFor(() => {
       expect(submitPost).toHaveBeenCalledOnce()

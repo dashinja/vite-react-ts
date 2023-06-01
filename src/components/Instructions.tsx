@@ -1,16 +1,14 @@
 import {
-  CountActionType,
+  type CountActionType,
   countReducer,
   InitialActionType,
 } from '../utilities/reducers'
-import { MouseEventHandler, useEffect, useReducer, useState } from 'react'
+import { type MouseEventHandler, useEffect, useReducer, useState } from 'react'
 import { useClientContext } from '../context/ClientContext'
 
-export type StylesType = {
-  readonly [key: string]: string
-}
+export type StylesType = Readonly<Record<string, string>>
 
-type InstructionsProps = {
+interface InstructionsProps {
   styles?: StylesType
 }
 
@@ -66,7 +64,7 @@ export default function Instructions({ styles }: InstructionsProps) {
   }
 
   useEffect(() => {
-    initializeList()
+    void initializeList()
   }, [])
 
   const deleteHandler: MouseEventHandler<HTMLButtonElement> = async (e) => {
@@ -80,7 +78,7 @@ export default function Instructions({ styles }: InstructionsProps) {
   }
 
   return (
-    <div className={styles?.myCenter || 'nope'}>
+    <div className={styles?.myCenter ?? 'nope'}>
       <h3>Main Page</h3>
 
       <form>
@@ -107,7 +105,7 @@ export default function Instructions({ styles }: InstructionsProps) {
             e.preventDefault()
             dispatchCount({
               type: '+1',
-              value: countState.value || 1,
+              value: countState.value ?? 1,
             } as CountActionType)
             setNumberInputFilled(true)
           }}

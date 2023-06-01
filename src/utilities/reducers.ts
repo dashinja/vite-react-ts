@@ -1,4 +1,4 @@
-export type CountActionType = {
+export interface CountActionType {
   type: 'changed_input' | '+1' | '-1'
   value?: number
 }
@@ -36,17 +36,17 @@ export function countReducer(
   }
 }
 
-export type SubmitStateType = {
+export interface SubmitStateType {
   type: 'submitted'
   newValue: number
   arrayValue?: number[]
 }
 
-export const InitialSubmitState = {
+export const InitialSubmitState: SubmitStateType = {
   type: 'submitted',
   arrayValue: [],
   newValue: 0,
-} as SubmitStateType
+}
 
 /**
  * Currently unused in favor of backend calls via client.ts

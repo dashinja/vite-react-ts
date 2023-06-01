@@ -5,7 +5,7 @@ import './index.css'
 
 if (process.env.NODE_ENV === 'development') {
   const browserHandlers = await import('../src/mocks/browser')
-  browserHandlers.worker.start()
+  void browserHandlers.worker.start()
 }
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
