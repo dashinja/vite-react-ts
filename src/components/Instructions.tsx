@@ -30,7 +30,7 @@ export default function Instructions({ styles }: InstructionsProps) {
       const res = await client.submitPost(dataToSubmit)
 
       if (res) {
-        const { data } = res
+        const data = await res.json()
         return data
       }
     } catch (err) {

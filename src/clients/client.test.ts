@@ -16,8 +16,9 @@ describe('Client', () => {
   })
 
   test('should return the updated list after calling submitPost', async () => {
-    const posts = await submitPost(4)
-    expect(posts?.data.length).toBe(4)
+    const res = await submitPost(4)
+    const posts = await res.json()
+    expect(posts.length).toBe(4)
   })
 
   test('should delete the list when calling deleteList', async () => {
