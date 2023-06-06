@@ -16,6 +16,9 @@ const client = axios.create({
   },
 })
 
+const headers = new Headers()
+headers.set('Content-Type', 'application/json')
+
 /**
  * Adds to list
  */
