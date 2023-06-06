@@ -1,23 +1,14 @@
-import axios, { AxiosError } from 'axios'
 import { type CountActionType } from '../utilities/reducers'
-
-export const baseURL = import.meta.env.PROD
-  ? import.meta.env.VITE_SUBMIT_URL
-  : import.meta.env.VITE_SUBMIT_URL_DEV
 
 /**
  * Calls AWS Lambda Gateway
  */
-const client = axios.create({
-  baseURL,
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-})
+export const baseURL = import.meta.env.PROD
+  ? import.meta.env.VITE_SUBMIT_URL
+  : import.meta.env.VITE_SUBMIT_URL_DEV
 
 const headers = new Headers()
-headers.set('Content-Type', 'application/json')
+headers.append('Content-Type', 'application/json')
 
 /**
  * Adds to list
@@ -34,27 +25,41 @@ export const submitPost = async (data: CountActionType['value']) => {
       })
 
       const dataToSend = dataTransform(data)
-      const res = await client.post('', JSON.stringify(dataToSend))
 
-      if (axios.isAxiosError(data)) {
-        console.error(data)
-        throw new AxiosError('Axios Failed')
+      const fetchPost = new Request(baseURL, {
+        method: 'POST',
+        body: JSON.stringify(dataToSend),
+        headers,
+      })
+
+      const response = await fetch(fetchPost)
+
+      if (!response.ok) {
+        throw new Error('Network Response was Not OK')
       } else {
-        return res
+        return response
       }
     } catch (error) {
-      return undefined
+      console.error('Problem with submitPost Fetch Operation')
     }
   }
+  throw new Error('No data for submitPost')
 }
 
 /**
  * Retrieves list value
  */
-export const getList = async (): Promise<number[]> =>
-  (await client.get(client.getUri())).data
+export const getList = async (): Promise<number[]> => {
+  const getRequest = new Request(baseURL, { headers })
+  const fetchData = await fetch(getRequest)
+  return await fetchData.json()
+}
 
 /**
  * Deletes list value
  */
-export const deleteList = async () => await client.delete(client.getUri())
+export const deleteList = async () => {
+  const deleteRequest = new Request(baseURL, { method: 'DELETE' })
+
+  return await fetch(deleteRequest)
+}

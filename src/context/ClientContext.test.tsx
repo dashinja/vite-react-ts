@@ -22,11 +22,13 @@ describe('ClientContext', () => {
     )
 
     const getListResult = await client.getList()
-    const submitPostResult = await client.submitPost(5)
+    const submitPostResponse = await client.submitPost(5)
     const deleteListResult = await client.deleteList()
 
+    const submitPostResult = await submitPostResponse.json()
+
     expect(getListResult).toStrictEqual([1, 2, 3])
-    expect(submitPostResult?.data).toStrictEqual([1, 2, 3, 5])
+    expect(submitPostResult).toStrictEqual([1, 2, 3, 5])
     expect(deleteListResult.status).toStrictEqual(204)
   })
 })

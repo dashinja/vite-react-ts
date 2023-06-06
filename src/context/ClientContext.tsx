@@ -1,15 +1,12 @@
 import type React from 'react'
 import { createContext, useContext } from 'react'
 import { type CountActionType } from '../utilities/reducers'
-import { type AxiosResponse } from 'axios'
 import { submitPost, getList, deleteList } from '../clients/client'
 
 interface ClientContext {
-  submitPost: (
-    data: CountActionType['value']
-  ) => Promise<AxiosResponse<any, any> | undefined>
+  submitPost: (data: CountActionType['value']) => Promise<Response>
   getList: () => Promise<number[]>
-  deleteList: () => Promise<AxiosResponse<any, any>>
+  deleteList: () => Promise<Response>
 }
 
 const initClientContext: ClientContext = {
